@@ -1,7 +1,7 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import * as THREE from "three"
 import { Canvas, useThree } from '@react-three/fiber'
-import { OrbitControls, useGLTF, useTexture } from '@react-three/drei'
+import { OrbitControls, useGLTF, useTexture, useAnimations } from '@react-three/drei'
 
 
 const Dog = () => {
@@ -15,19 +15,46 @@ const Dog = () => {
 
   })
 
-  const textures = useTexture({
-      normalMap: "models/dog_normals.jpg",
-      sampleMatCap: "/matcap/mat-2.png"
+  const { actions } = useAnimations(model.animations, model.scene)
+
+  useEffect(() => {
+      actions["Take 001"].play()
+  }, [actions])
+
+//   const textures = useTexture({
+//       normalMap: "models/dog_normals.jpg",
+//       sampleMatCap: "/matcap/mat-2.png"
+//   })
+
+  const [ normalMap, sampleMatCap] = 
+  (useTexture(["/models/dog_normals.jpg", "/matcap/mat-2.png" ])).map(texture => {
+    texture.flipY = false
+    texture.colorSpace = THREE.SRGBColorSpace
+    return texture
+  })
+  
+
+  const [ branchMap, branchNormalMap ] = 
+  (useTexture(["/models/branches_diffuse.jpg","/models/branches_normals.jpg"])).map(texture => {
+    texture.colorSpace = THREE.SRGBColorSpace
+    return texture
   })
 
- 
+  const dogMaterial = new THREE.MeshMatcapMaterial({
+        normalMap: normalMap,
+        matcap: sampleMatCap
+  })
+  
+  const branchmaterial = new THREE.MeshMatcapMaterial({
+        normalMap: branchNormalMap,
+        map: branchMap
+  })
 
   model.scene.traverse((child) => {
       if(child.name.includes("DOG")){
-        child.material = new THREE.MeshMatcapMaterial({
-            normalMap:textures.normalMap,
-            matcap:textures.sampleMatCap
-        })
+        child.material = dogMaterial       
+      }else{
+        child.material = branchmaterial
       }
   }) 
       
@@ -35,9 +62,9 @@ const Dog = () => {
   return (
       <>
 
-          <primitive object={model.scene} position ={[ 0.25, -0.55, 0 ]} rotation = {[ 0, Math.PI / 3.9, 0 ]}/>
+          <primitive object={model.scene} position ={[ 0.25, -0.55, 0 ]} rotation = {[ 0, Math.PI / 6.2, 0 ]}/>
           <directionalLight position= {[ 0, 5, 5]} color={ 0xFFFFFF } intensity={10} />
-          <OrbitControls />
+          
       </>  
 
   )
