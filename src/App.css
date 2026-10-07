@@ -4,9 +4,20 @@
   box-sizing: border-box;
 }
 
-html, body, 
+html, 
+body, 
 #root {
-  height: 100%;
   width: 100%;
   background-color: black;
+}
+
+main{
+  position: relative;
+}
+
+section{
+  min-height: 100vh;
+  border: 2px solid white;
+  position: relative;
+  z-index: 2;
 }
