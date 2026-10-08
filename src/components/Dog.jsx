@@ -106,8 +106,7 @@ const Dog = () => {
           <primitive object={model.scene} position ={[ 0.25, -0.55, 0 ]} rotation = {[ 0, Math.PI / 6.2, 0 ]}/>
           <directionalLight position= {[ 0, 5, 5]} color={ 0xFFFFFF } intensity={10} />
           
-      </>  
-
+      </> 
   )
 }
 
