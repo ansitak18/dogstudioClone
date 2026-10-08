@@ -17,7 +17,7 @@ const Dog = () => {
   const model = useGLTF("/models/dog.drc.glb")
   
   useThree( ({camera, scene, gl }) => {
-    camera.position.z = 0.55
+    camera.position.z = 0.45
     gl.toneMapping = THREE.ReinhardToneMapping
     gl.outputColorSpace = THREE.SRGBColorSpace
 
@@ -81,7 +81,7 @@ const Dog = () => {
       tl
         .to(dogModel.current.scene.position, {
           z: "-=0.75",
-          y: "+=0.1"
+          y: "+=0.1",
         })
 
         .to(dogModel.current.scene.rotation, {
@@ -94,7 +94,7 @@ const Dog = () => {
 
         .to(dogModel.current.scene.position, {
           x: "-=0.45",
-          z: "+=0.6",
+          z: "+=0.5",
           y: "-=0.3"
         }, "third")
 

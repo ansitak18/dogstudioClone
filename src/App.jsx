@@ -71,6 +71,7 @@ function App() {
               </div>
 
               <div className="first-line"></div>
+              <div className="second-line"></div>
 
   
            </section>
